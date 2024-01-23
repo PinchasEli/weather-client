@@ -3,7 +3,7 @@
 </script>
 <template>
     <div class="Login">
-        <span>Login to tour account</span>
+        <span>Login to your account</span>
         <Login />
     </div>
 </template>

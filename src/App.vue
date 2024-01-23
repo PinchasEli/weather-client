@@ -3,7 +3,7 @@
   import { ref, watch } from 'vue';
   import { useUserStore } from './stores/user';
 
-  import HelloWorld from './components/HelloWorld.vue'
+  import Hello from './components/Hello.vue'
 
   const router = useRouter();
   const userStore = useUserStore();
@@ -27,7 +27,7 @@
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
     <div class="wrapper">
-      <HelloWorld :msg="msg" />
+      <Hello :msg="msg" />
       <nav>
         <RouterLink v-if="!userStore.user" to="/login">Login</RouterLink>
         <RouterLink v-if="userStore.user" to="" @click="logout">Logout</RouterLink>

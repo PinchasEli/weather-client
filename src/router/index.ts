@@ -1,25 +1,11 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
-// import { createPinia } from 'pinia';
-// import App from '../App.vue'
 import { useUserStore } from '@/stores/user';
-
-// const userStore = useUserStore();
-// const pinia = createPinia();
-// const userStore = useUserStore(pinia);
-
-// const pinia = createPinia()
-// const app = createApp(App)
-// app.use(pinia)
-
 
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'Home',
-    // beforeEnter: (to, from, next) => {
-    //   userStore.user ? next() : next('/login');
-    // },
     meta: {
       requiresAuth: true,
     },
@@ -28,9 +14,6 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/history',
     name: 'History',
-    // beforeEnter: (to, from, next) => {
-    //   userStore.user ? next() : next('/login');
-    // },
     meta: {
       requiresAuth: true,
     },
@@ -39,9 +22,6 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/login',
     name: 'Login',
-    // route level code-splitting
-    // this generates a separate chunk (About.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => import('../views/LoginView.vue')
   }
 ];
@@ -53,17 +33,12 @@ const router = createRouter({
 
 
 router.beforeEach((to, from, next) => {
-  const userStore = useUserStore()
-  console.log('User State:', userStore.user);
+  const userStore = useUserStore();
 
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    // Check if the user is logged in
-    console.log('userStore.user :>> ', userStore.user);
     if (!userStore.user) {
-      // Redirect to login if not logged in
       next('/login');
     } else {
-      // Allow access
       next();
     }
   } else {

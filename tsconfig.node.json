@@ -12,6 +12,9 @@
     "noEmit": true,
     "isolatedModules": true,
     "skipLibCheck": true,
+    "useDefineForClassFields": true,
+    "exactOptionalPropertyTypes": true,
+    "verbatimModuleSyntax": false,
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "types": ["node", "vite/client", "vue"]

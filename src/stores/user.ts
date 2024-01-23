@@ -1,26 +1,26 @@
 import { defineStore } from 'pinia';
-import axios from 'axios';
+import axios from '../Interceptors/axiosInterceptors';
 
 import { environment } from '@/environment';
+import type { User } from '@/models/user.interface';
 
-const $axios = axios.create({
-  baseURL: environment.BASE_URL,
-});
 
-interface User {
-    username: string;
-    // password: string;
-    token?: string;
-}
+const BASE_URL = environment.BASE_URL || '';
 
 export const useUserStore = defineStore('user', {
     state: () => ({
       user: null as User | null,
     }),
+    getters: {
+      isAuthenticated: (state) => !!state.user,
+    },
     actions: {
         init() {
+            if (this.user) {
+              return;
+            }
+
             const storedUser = localStorage.getItem('user');
-      
             if (storedUser) {
               this.setUser(JSON.parse(storedUser));
             }
@@ -33,32 +33,24 @@ export const useUserStore = defineStore('user', {
             this.user = null;
             localStorage.removeItem('user');
         },
-        isAuthenticated() {
-            return !!this.user;
-        },
         async login(data: any) {
-            // try {
-              // Make a POST request to the login endpoint
-              const response = await $axios.post('/accounts/auth', data);
-      
-              // Get the token from the response
-            //   const token = response.data.token;
+            try {
+              const response = await axios.post(`${BASE_URL}/accounts/auth`, data);
+
               const responseData = response.data.data;
-              console.log('response.data :>> ', responseData);
-              console.log('response.data :>> ', typeof(responseData));
-              console.log('response.data :>> ', responseData.token);
-              console.log('response.data :>> ', responseData.user);
-              // Use AuthService to login
               this.setUser({ 
                 token: responseData.token, 
                 username: responseData.user.username
               });
-      
-              // Redirect to a protected route or perform other actions
+
               console.log('Login successful');
-            // } catch (error: any) {
-            //   console.error('Login failed:', error.message);
-            // }
+            } catch (error: any) {
+              console.error('Login failed:', error.message);
+            }
         },
     }
 });
+
+// const userStore = useUserStore();
+
+// export default userStore;
