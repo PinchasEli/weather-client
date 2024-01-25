@@ -50,7 +50,3 @@ export const useUserStore = defineStore('user', {
         },
     }
 });
-
-// const userStore = useUserStore();
-
-// export default userStore;

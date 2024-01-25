@@ -7,6 +7,7 @@
         cityInput: '',
         errorCityInput: '',
         isValid: false,
+        isLoading: false,
         weatherStore: useWeatherStore()
       };
     },
@@ -18,9 +19,11 @@
           return;
         }
         this.errorCityInput = '';
+        this.isLoading = true;
         const response = await this.weatherStore.getWeather(this.cityInput);
+        this.isLoading = false;
+        this.cityInput = '';
         console.log('SearchForm response :>> ', response);
-        // set the after and init the form
       },
     },
     watch: {
@@ -39,12 +42,12 @@
     <input class="form-input" v-model="cityInput" type="text" id="cityInput" />
     <span class="validation-error" v-if="errorCityInput" >{{ errorCityInput }}</span>
 
-    <button class="submit-button" @click="submitForm" :disabled="!isValid">Check</button>
+    <button class="submit-button" @click="submitForm" :disabled="!isValid || isLoading">Check</button>
+    <span class="validation-error" v-if="isLoading" >Please wait for results</span>
   </div>
 </template>
   
 <style scoped>
-/* Add scoped styles for the component */
   .form-content {
     display: flex;
     flex-direction: column;
@@ -66,6 +69,10 @@
 
   .validation-error {
     color: red;
+  }
+  .wait {
+    color: gray;
+    font-size: 2rem;
   }
 </style>
   

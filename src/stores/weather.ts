@@ -33,7 +33,7 @@ export const useWeatherStore = defineStore('weather', {
         },
         async getHistory() {
           try {
-            const response = await axios.get(`${BASE_URL}/history`, { params });
+            const response = await axios.get(`${BASE_URL}/history`);
 
             const responseData = response.data.data;
             console.log('responseData :>> ', responseData);

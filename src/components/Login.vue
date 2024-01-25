@@ -11,7 +11,6 @@
     const password = ref('');
 
     const login = async () => {
-
         const userData = { username: username.value, password: password.value };
         console.log('login :>> ', userData);
         const success = await userStore.login(userData);
@@ -23,19 +22,42 @@
 </script>
 
 <template>
-    <div>
-      <h2>Login</h2>
-      <form @submit.prevent="login">
-        <label for="username">Username:</label>
-        <input v-model="username" type="text" id="username" required />
-        <br />
-        <label for="password">Password:</label>
-        <input v-model="password" type="password" id="password" required />
-        <br />
-        <button type="submit">Login</button>
-      </form>
-    </div>
-  </template>
-  
+  <div class="form-content">
+    <h2>Login</h2>
+    <form @submit.prevent="login">
+      <label for="username">Username:</label>
+      <input class="form-input" v-model="username" type="text" id="username" required />
+      <br />
+      <label for="password">Password:</label>
+      <input class="form-input" v-model="password" type="password" id="password" required />
+      <br />
+      <button class="submit-button" type="submit">Login</button>
+    </form>
+  </div>
+</template>
 
+<style scoped>
+  .form-content {
+    display: flex;
+    flex-direction: column;
+  }
+  .form-input {
+    width: 200px;
+    padding: 8px;
+    margin-bottom: 10px;
+  }
+
+  .submit-button {
+    background-color: #4caf50; /* Green */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .validation-error {
+    color: red;
+  }
+</style>
   
